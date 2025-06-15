@@ -378,8 +378,12 @@
 			if (phenomena_flags & PH_QUAKE)
 				shake_camera(M, 5, 16)
 				random_brute_damage(M, 3)
-				M.changeStatus("knockdown", 1 SECOND)
 				M.show_text(SPAN_ALERT("<b>The ground quakes and rumbles violently!</b>"))
+				if (ishuman(M))
+					var/mob/living/carbon/human/H = M
+					if (H.shoes?.magnetic && istype(H.shoes, /obj/item/clothing/shoes/magnetic))
+						continue //no knockdown for you, you have magnetic shoes
+				M.changeStatus("knockdown", 1 SECOND)
 
 		if (phenomena_flags & PH_FIRE_WEAK)
 			fireflash(phenomena_point,0)
